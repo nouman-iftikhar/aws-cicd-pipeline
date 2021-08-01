@@ -1,10 +1,18 @@
 version: 0.2
+env:
+  variables:
+    TERRAFORM_VERSION: 0.13.4
+
 phases:
   pre_build:
     commands:
-      - terraform init
-      - terraform validate
+      - curl -o terraform_${TERRAFORM_VERSION}_linux_amd64.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+      - unzip -o terraform_${TERRAFORM_VERSION}_linux_amd64.zip && mv terraform /usr/bin
+      - terraform --version
   
   build:
     commands:
-      - terraform plan
+      - terraform init
+      - terraform validate
+
+  
